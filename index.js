@@ -65,6 +65,8 @@ var saveToJSON, loadFromJSON, init;
     init = init;
 }).call()
 
+/** See jsmf-util documentation */
+var demote, equals, exportD3JS;
 
 (function() {
     var util = require('jsmf-util');
