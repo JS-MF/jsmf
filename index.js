@@ -101,7 +101,7 @@ module.exports = {
     init: init,
 
     saveToJSON: saveToJSON,
-    loadFromJSON: loadFromJSON
+    loadFromJSON: loadFromJSON,
 
     demote : demote,
     equals : equals,

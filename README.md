@@ -13,6 +13,7 @@ The library is composed of the following components:
 - *jsmf-magellan*: A library for model navigation and model queries.
 - *jsmf-neo4J*: A NEO4J backend for JSMF models.
 - *jsmf-json*: Serialization of jsmf models as JSON.
+- *jsmf-util*: Miscellanous functions for jsmf models.
 
 Aside these libraries, the examples folders contains some example about the
 global usage of the libraries.
