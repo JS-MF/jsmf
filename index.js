@@ -65,6 +65,17 @@ var saveToJSON, loadFromJSON, init;
     init = init;
 }).call()
 
+/** See jsmf-util documentation */
+var demote, equals, exportD3JS;
+
+(function() {
+    var util = require('jsmf-util');
+    demote = util.demote;
+    equals = util.equals;
+    exportD3JS = util.exportD3JS;
+   
+}).call()
+
 module.exports = {
 
     Class: Class,
@@ -92,6 +103,10 @@ module.exports = {
     init: init,
 
     saveToJSON: saveToJSON,
-    loadFromJSON: loadFromJSON
+    loadFromJSON: loadFromJSON,
+
+    demote : demote,
+    equals : equals,
+    exportD3JS : exportD3JS
 }
 

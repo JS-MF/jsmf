@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@git.list.lu:model/jsmf-jstl.git"
+    "url": "git@git.list.lu:model/jsmf.git"
   },
   "keywords": [
     "Modelling",
@@ -24,7 +24,8 @@
     "jsmf-jstl": "git+ssh://git@git.list.lu:jsmf/jsmf-jstl.git",
     "jsmf-magellan": "git+ssh://git@git.list.lu:jsmf/jsmf-magellan.git",
     "jsmf-neo4j": "git+ssh://git@git.list.lu:jsmf/jsmf-neo4j.git",
-    "jsmf-json": "git+ssh://git@git.list.lu:jsmf/jsmf-json.git"
+    "jsmf-json": "git+ssh://git@git.list.lu:jsmf/jsmf-json.git",
+    "jsmf-util": "git+ssh://git@git.list.lu:jsmf/jsmf-util.git"
   },
   "devDependencies": {
     "eyes": "~0.1.8",
