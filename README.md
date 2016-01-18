@@ -26,6 +26,6 @@ JSMF is under active development, the API is not stable at the moment and can ch
 
 JSMF is developped by the
 [Luxembourg Institute of Science and Technology](http://list.lu/) (LIST).
-You can see the [license file](./LICENSE) for more information about the
-license and the [contributors](./Contributors) file for more information about
+You can see the [license file](LICENSE) for more information about the
+license and the [contributors](Contributors) file for more information about
 the authors and contributors to the project.
