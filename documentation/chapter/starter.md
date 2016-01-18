@@ -350,7 +350,7 @@ in the output model will be the transitions that led to this state in the input
 model. Unfortunately, there is no opposite relationship to `transitions`. Thus,
 we must query the input model to build the new set of transitions, as follow:
 
-```javacript
+```javascript
 var stateInversion = {
     in: function(x) {return nav.allInstancesFromModel(State, x);},
     out: function(i, input) {
@@ -372,7 +372,7 @@ module.addRule(stateInversion);
 And that's is, we are ready to launch the transformation (and we use the
 inspect module to check the result):
 
-```javacript
+```javascript
 module.applyAllRules();
 var inspect = require('eyes').inspector({
     maxLength: 12000
