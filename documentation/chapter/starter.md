@@ -4,7 +4,7 @@ In this section, we will create a dummy finite state machine model (FSM) example
 (with only one initial and one final state), and a model transformation that
 invert the transition of the state machine.
 
-This example is available in the [examples directory](../../example/FSM).
+This example is available in the examples directory.
 
 ## The FSM metamodel
 
@@ -23,8 +23,7 @@ A `Transition` has a name and an `target` state and a `source` state.
 
 # Implementation
 
-The FSM metamodel code is proposed in
-[`fsm-metamodel.js`](../../example/FSM/fsm-metamodel.js).
+The FSM metamodel code is proposed in `fsm-metamodel.js`.
 
 We start with a traditional `jsmf-core` import:
 
@@ -117,9 +116,9 @@ module.exports = {
 Let's continue with the implementation of a small FSM sample. We will model the
 following FSM in JSMF (where `s0` is the initial state):
 
-![FSM Sample](./fsm-sample.png)
+![FSM Sample](fsm-sample.png)
 
-The code is in [`fsm-model.js`](../../example/FSM/fsm-model.js).
+The code is in `fsm-model.js`.
 
 As a preamble, we start with an import of `jsmf-core` and of the meta-model:
 
@@ -207,7 +206,7 @@ module.exports.sample = sample;
 As an example of model transformation, we propose a transformation module that
 _revert_ a FSM: the final state becomes the initial state (and vice versa) and
 all the transitions are inverted. The model transformation code is proposed in
-the file [`invertFSM.js`](../../example/FSM/invertFSM.js).
+the file `invertFSM.js`.
 
 The transformation uses JSTL (JavaScript Transformation Library) a subpart of
 JSMF for model transformation inspired by [ATL](http://www.eclipse.org/atl/).
