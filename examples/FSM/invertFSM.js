@@ -8,10 +8,11 @@ var Model;
     Model = jsmf.Model;
 }).call();
 
-var TransformationModule;
+var Mapping, Transformation;
 (function() {
     var jstl = require('jsmf-jstl');
-    TransformationModule = jstl.TransformationModule;
+    Transformation = jstl.Transformation;
+    Mapping = jstl.Mapping;
 }).call();
 
 var nav = require('jsmf-magellan');
@@ -29,30 +30,17 @@ var input;
     input = M.sample;
 }).call();
 
-var output = new Model('invertedSample')
 
-var module = new TransformationModule('invertFSM', input, output);
+var module = new Transformation();
 
 var fsmInversion = {
     in: function(x) {return nav.allInstancesFromModel(FSM, x);},
     out: function(i) {
         var fsm = FSM.newInstance();
-        var fsmInitial = {
-            source: fsm,
-            relationname: 'initial',
-            target: i.final
-        };
-        var fsmFinal = {
-            source: fsm,
-            relationname: 'final',
-            target: i.initial
-        };
-        var fsmStates = {
-            source: fsm,
-            relationname: 'states',
-            target: i.states
-        };
-        return [fsm, fsmInitial, fsmFinal, fsmStates];
+        this.assign(fsm, 'initial', i.final);
+        this.assign(fsm, 'final', i.initial);
+        this.assign(fsm, 'states', i.states);
+        return [fsm];
     }
 };
 module.addRule(fsmInversion);
@@ -61,12 +49,8 @@ var transitionInversion = {
     in: function(x) {return nav.allInstancesFromModel(Transition, x);},
     out: function(i) {
         var transition = Transition.newInstance({name: i.name});
-        var transitionTarget = {
-            source: transition,
-            relationname: 'target',
-            target: i.source
-        };
-        return [transition, transitionTarget];
+        this.assign(transition, 'target', i.source);
+        return [transition];
     }
 }
 module.addRule(transitionInversion);
@@ -75,21 +59,29 @@ var stateInversion = {
     in: function(x) {return nav.allInstancesFromModel(State, x);},
     out: function(i, input) {
         var state = State.newInstance({name: i.name});
-        var stateTransitions = {
-            source: state,
-            relationname: 'transitions',
-            target: _.filter(
-                nav.allInstancesFromModel(Transition, input),
-                function(x) {return x.target[0] === i}
-            )
-        };
-        return [state, stateTransitions];
+        this.assign(state, 'transitions', this.helpers.opposedTarget.valuesFor(i));
+        return [state];
     }
 };
 module.addRule(stateInversion);
 
-module.applyAllRules();
+var opposedTargetRelation = {
+    name: 'opposedTarget',
+    map: function(x) {
+      var result = new Mapping();
+      _.forEach(
+          nav.allInstancesFromModel(Transition, x),
+          function (t) {
+              result.map(t.target[0], t);
+          });
+      return result;
+    }
+}
+module.addHelper(opposedTargetRelation);
+
+var output = new Model('invertedSample')
+module.apply(input, output);
 var inspect = require('eyes').inspector({
     maxLength: 12000
 });
-inspect(module.outputModel);
+inspect(output);

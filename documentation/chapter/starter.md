@@ -213,7 +213,7 @@ The transformation uses JSTL (JavaScript Transformation Library) a subpart of
 JSMF for model transformation inspired by [ATL](http://www.eclipse.org/atl/).
 
 The file start with JSMF libraries, FSM meta-model and FSM model import (from
-line 3 to line 30):
+line 3 to line 31):
 
 ```javascript
 var _ = require('lodash');
@@ -224,10 +224,11 @@ var Model;
     Model = jsmf.Model;
 }).call();
 
-var TransformationModule;
+var Mapping, Transformation;
 (function() {
     var jstl = require('jsmf-jstl');
-    TransformationModule = jstl.TransformationModule;
+    Transformation = jstl.Transformation;
+    Mapping = jstl.Mapping;
 }).call();
 
 var nav = require('jsmf-magellan');
@@ -246,15 +247,10 @@ var input;
 }).call();
 ```
 
-We continue by the initialisation of the transformation module. In JSTL, we
-need to initialize the transformation module with an input and an output model
-before we start defining the transformation rules. The output model here is
-initially empty, thus we have:
+We continue by the initialisation of the transformation module.
 
 
 ```javascript
-var output = new Model('invertedSample')
-
 var module = new TransformationModule('invertFSM', input, output);
 ```
 
@@ -266,15 +262,14 @@ transformation rule is an object composed of two properties:
 - `in`: that is actually a filter function on the input model, to select the
 elements the rules will be applied on.
 - `out`: a function that take a selected element (and optionally the input
-model) as parameters. It returns a heterogeneous array composed of output
-elements (that will populate the output models), and reference resolution rules
-(these last one are described below).
+model) as parameters. It returns an array of output
+elements (that will populate the output models). The `out` function can also
+declare reference resolution rules using `this.assign` (these last ones are
+described below).
 
-A reference resolution rule expresses how references are resolved in the output
-model. It is an object composed of 3 properties:
-
+`this.assign` takes 3 arguments:
 - `source`: The element we are resolving reference for.
-- `relationname`: the name of the relation we populate.
+- `relationName`: the name of the relation we populate.
 - `target`: the collection of elements from the input models that we transform
 to populate the relation.
 
@@ -289,31 +284,19 @@ var fsmInversion = {
     in: function(x) {return nav.allInstancesFromModel(FSM, x);},
     out: function(i) {
         var fsm = FSM.newInstance();
-        var fsmInitial = {
-            source: fsm,
-            relationname: 'initial',
-            target: i.final
-        };
-        var fsmFinal = {
-            source: fsm,
-            relationname: 'final',
-            target: i.initial
-        };
-        var fsmStates = {
-            source: fsm,
-            relationname: 'states',
-            target: i.states
-        };
-        return [fsm, fsmInitial, fsmFinal, fsmStates];
+        this.assign(fsm, 'initial', i.final);
+        this.assign(fsm, 'final', i.initial);
+        this.assign(fsm, 'states', i.states);
+        return [fsm];
     }
 };
 module.addRule(fsmInversion);
 ```
 
-In this sample, the `fsmInitial` and `fsmFinal` resolution rules follow the
+In this sample, the two first `this.assign` resolution rules follow the
 same pattern: they will populate a reference in the newly created fsm object,
 and will respectively used the transformed `final` and `initial` reference of
-the inital FSM to poluate the references. The `fsmStates` rules is also
+the inital FSM to poluate the references. The last resolution rule is also
 straightforward: the transformation of each states of the inital model will be
 a state in the output FSM.
 
@@ -327,12 +310,8 @@ var transitionInversion = {
     in: function(x) {return nav.allInstancesFromModel(Transition, x);},
     out: function(i) {
         var transition = Transition.newInstance({name: i.name});
-        var transitionTarget = {
-            source: transition,
-            relationname: 'target',
-            target: i.source
-        };
-        return [transition, transitionTarget];
+        this.assign(transition, 'target', i.source);
+        return [transition];
     }
 }
 module.addRule(transitionInversion);
@@ -348,34 +327,55 @@ will be the transformation of the original source state of this transition.
 The main difficulty for state transformation is that the transitions of a state
 in the output model will be the transitions that led to this state in the input
 model. Unfortunately, there is no opposite relationship to `transitions`. Thus,
-we must query the input model to build the new set of transitions, as follow:
+we must query the input model to build the new set of transitions. To do so, we
+use a helper, dsicussed below. For the moment, just see how this helper is used
+in the example:
 
 ```javascript
 var stateInversion = {
     in: function(x) {return nav.allInstancesFromModel(State, x);},
     out: function(i, input) {
         var state = State.newInstance({name: i.name});
-        var stateTransitions = {
-            source: state,
-            relationname: 'transitions',
-            target: _.filter(
-                nav.allInstancesFromModel(Transition, input),
-                function(x) {return x.target[0] === i}
-            )
-        };
-        return [state, stateTransitions];
+        this.assign(state, 'transitions', this.helpers.opposedTarget.valuesFor(i));
+        return [state];
     }
 };
 module.addRule(stateInversion);
 ```
 
+The helper is called `opposedTarget` and provide a mapping that associate each
+states to the array of transitions that lead to this state. The `valuesFor`
+function give us access to these transitions. Let see how the helper is declared:
+
+```javascript
+var opposedTargetRelation = {
+    name: 'opposedTarget',
+    map: function(x) {
+      var result = new Mapping();
+      _.forEach(
+          nav.allInstancesFromModel(Transition, x),
+          function (t) {
+              result.map(t.target[0], t);
+          });
+      return result;
+    }
+}
+module.addHelper(opposedTargetRelation);
+```
+
+A helper is an object that is composed of a `name` used as a reference in the
+rules that use the helper and of a map function, that will be executed at
+runtime on the input model. In our case, the helper build a `Mapping` object.
+
+
 And that's is, we are ready to launch the transformation (and we use the
 inspect module to check the result):
 
 ```javascript
-module.applyAllRules();
+var output = new Model('invertedSample')
+module.apply(input, output);
 var inspect = require('eyes').inspector({
     maxLength: 12000
 });
-inspect(module.outputModel);
+inspect(output);
 ```
