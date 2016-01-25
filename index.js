@@ -65,6 +65,20 @@ var saveToJSON, loadFromJSON, init;
     init = init;
 }).call()
 
+/** See jsmf-check documentation */
+var Checker, Rule, all, any, raw, onInput, onOutput, Reference;
+
+(function() {
+    var check = require('jsmf-check');
+    Checker = check.Checker;
+    Rule = check.Rule;
+    all = check.all;
+    any = check.any;
+    onInput = check.onInput;
+    onOutput = check.onOutput;
+    Reference = check.Reference;
+}).call()
+
 /** See jsmf-util documentation */
 var demote, equals, exportD3JS;
 
@@ -73,7 +87,6 @@ var demote, equals, exportD3JS;
     demote = util.demote;
     equals = util.equals;
     exportD3JS = util.exportD3JS;
-   
 }).call()
 
 module.exports = {
@@ -104,6 +117,14 @@ module.exports = {
 
     saveToJSON: saveToJSON,
     loadFromJSON: loadFromJSON,
+
+    Checker: Checker,
+    Rule: Rule,
+    all: all,
+    any: any,
+    onInput: onInput,
+    onOutput: onOutput,
+    Reference: Reference,
 
     demote : demote,
     equals : equals,

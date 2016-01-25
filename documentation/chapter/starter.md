@@ -378,3 +378,185 @@ var inspect = require('eyes').inspector({
 });
 inspect(output);
 ```
+
+But we haven't finish with the transformed FSM yet, so let's export the result:
+
+```javascript
+module.exports.inverted = output;
+```
+
+
+## Transformation verification
+
+We now have transformed our initial model, but how can we be sure that the
+result of our transformation is what we expected? JSMF provide a checking tool
+that can be used either to check properties of a model or of a transformation.
+In this section, we use it to test some properties of our transformation.
+
+The code is available in the `checkTransformation.js` file of the example
+directory.
+
+As usual, we start with libraries import:
+
+```javascript
+var _ = require('lodash');
+
+var Model;
+(function() {
+    var jsmf = require('jsmf-core');
+    Model = jsmf.Model;
+}).call();
+
+var nav = require('jsmf-magellan');
+var check = require('jsmf-check');
+
+var FSM_MM, FSM, State, Transition;
+(function() { var MM = require('./fsm-metaModel.js');
+    FSM_MM = MM.FSM_MM;
+    FSM = MM.FSM;
+    State = MM.State;
+    Transition = MM.Transition;
+}).call();
+
+var initial;
+(function() { var M = require('./fsm-model.js');
+    initial = M.sample;
+}).call();
+
+
+var inverted;
+(function() { var M = require('./invertFSM.js');
+    inverted = M.inverted;
+}).call();
+```
+
+Then we initialize a checker:
+
+```javascript
+var checkTransformation = new check.Checker();
+```
+
+Let start with a check of the FSM object transformation. We will check
+if for each FSM of the input model, there exists a FSM in the output
+model such that:
+
+- The name of the initial state in the input model is the name of the final
+state in the output model.
+- The name of the final state in the input model is the name of the initial
+state in the output model.
+- Both model has the same number of states.
+
+We add a rule (that we call `FSM_inversion`) to check these properties.
+The `addRule` function takes 3 arguments: the name, the set of selection
+to check rule (here, for all FSM elements in the input model (first selection),
+check if there exists an FSM element in the output model (second selection)).
+
+The thris argument is the function that must be fullfilled by these models:
+
+```javascript
+checkTransformation.addRule(
+    'FSM_inversion',
+    [ check.all(check.onInput(function (x) {
+        return nav.allInstancesFromModel(FSM, x);
+      }))
+    , check.any(check.onOutput(function (x) {
+        return nav.allInstancesFromModel(FSM, x);
+    }))
+    ],
+    function (x, y) {
+        return x.initial[0].name === y.final[0].name
+          && x.final[0].name === y.initial[0].name
+          && x.states.length === y.states.length
+    }
+);
+```
+
+We continue with the definition of several selections for the checker.
+_Selections_ are filter on the input / output models that will be evaluated
+once and can be reused several times afterwards. We use such selections
+to filter all the states of the input and of the ouput models, which will be
+used several times in the next rules.
+
+```javascript
+checkTransformation.selections.inputStates =
+    check.onInput(function (x) {
+        return nav.allInstancesFromModel(State, x);
+    })
+
+checkTransformation.selections.outputStates =
+    check.onOutput(function (x) {
+        return nav.allInstancesFromModel(State, x);
+    })
+```
+
+With these selections, we can check that the transformation preserve the number of states:
+
+```javascript
+checkTransformation.addRule(
+    'State cardinality preservation',
+    [ check.raw(new check.Reference('inputStates'))
+    , check.raw(new check.Reference('outputStates'))
+    ],
+    function (x, y) { return x.length === y.length }
+);
+```
+
+We also check if the names are preserved: for each state of the input model, it
+exists a state in the output model with the same name:
+
+```javascript
+checkTransformation.addRule(
+    'State name preservation',
+    [ check.all(new check.Reference('inputStates'))
+    , check.any(new check.Reference('outputStates'))
+    ],
+    function (x, y) { return x.name === y.name }
+);
+```
+
+We continue by checking that the number of transitions is preserved thourgh the transformation:
+
+```javascript
+checkTransformation.addRule(
+    'Transition cardinality preservation',
+    [ check.raw(check.onInput(function (x) {
+        return nav.allInstancesFromModel(Transition, x);
+      }))
+    , check.raw(check.onOutput(function (x) {
+        return nav.allInstancesFromModel(Transition, x);
+    }))
+    ],
+    function (x, y) { return x.length === y.length }
+);
+
+```
+
+We finish with the most important rule: transitions are inverted. For all the
+transitions in the input model, there exists a transition of the output model
+such that:
+
+- The name of the source state of the input transition is the name of the target state of the output transition.
+- The name of the source state of the output transition is the name of the target state of the input transition.
+
+```javascript
+checkTransformation.addRule(
+    'Transition are inverted',
+    [ check.all(check.onInput(function (x) {
+        return nav.allInstancesFromModel(Transition, x);
+      }))
+    , check.any(check.onOutput(function (x) {
+        return nav.allInstancesFromModel(Transition, x);
+      }))
+    ],
+    function (inputT, outputT) {
+        return inputT.target[0].name == outputT.source[0].name
+            && outputT.target[0].name == inputT.source[0].name;
+    }
+);
+```
+
+And then we run all these rules (and log the result):
+
+```javascript
+console.log(checkTransformation.runOnTransformation(initial, inverted));
+```

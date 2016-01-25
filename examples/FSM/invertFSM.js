@@ -31,7 +31,7 @@ var input;
 }).call();
 
 
-var module = new Transformation();
+var trans = new Transformation();
 
 var fsmInversion = {
     in: function(x) {return nav.allInstancesFromModel(FSM, x);},
@@ -43,7 +43,7 @@ var fsmInversion = {
         return [fsm];
     }
 };
-module.addRule(fsmInversion);
+trans.addRule(fsmInversion);
 
 var transitionInversion = {
     in: function(x) {return nav.allInstancesFromModel(Transition, x);},
@@ -53,7 +53,7 @@ var transitionInversion = {
         return [transition];
     }
 }
-module.addRule(transitionInversion);
+trans.addRule(transitionInversion);
 
 var stateInversion = {
     in: function(x) {return nav.allInstancesFromModel(State, x);},
@@ -63,7 +63,7 @@ var stateInversion = {
         return [state];
     }
 };
-module.addRule(stateInversion);
+trans.addRule(stateInversion);
 
 var opposedTargetRelation = {
     name: 'opposedTarget',
@@ -77,11 +77,13 @@ var opposedTargetRelation = {
       return result;
     }
 }
-module.addHelper(opposedTargetRelation);
+trans.addHelper(opposedTargetRelation);
 
 var output = new Model('invertedSample')
-module.apply(input, output);
+trans.apply(input, output);
 var inspect = require('eyes').inspector({
     maxLength: 12000
 });
 inspect(output);
+
+module.exports.inverted = output;
