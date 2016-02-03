@@ -14,11 +14,11 @@ var Model, Class, Enum;
 /* jsmf-jstl reexcports */
 
 /** See jsmf-jstl documentation */
-var TransformationModule;
+var Transformation;
 
 (function() {
     var jstl = require('jsmf-jstl');
-    TransformationModule = jstl.TransformationModule;
+    Transformation = jstl.Transformation;
 }).call()
 
 /* jsmf-magellan reexports */
