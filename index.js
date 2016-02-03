@@ -95,7 +95,7 @@ module.exports = {
     Model: Model,
     Enum: Enum,
 
-    TransformationModule: TransformationModule,
+    Transformation: Transformation,
 
     crawl: crawl,
     follow: follow,
