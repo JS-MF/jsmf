@@ -22,7 +22,7 @@
   "dependencies": {
     "jsmf-core": "git+ssh://git@git.list.lu:jsmf/jsmf-core.git",
     "jsmf-check": "git+ssh://git@git.list.lu:jsmf/jsmf-check.git",
-    "jsmf-jstl": "git+ssh://git@git.list.lu:jsmf/jsmf-jstl.git#v0.4.1",
+    "jsmf-jstl": "git+ssh://git@git.list.lu:jsmf/jsmf-jstl.git#v0.5.0",
     "jsmf-magellan": "git+ssh://git@git.list.lu:jsmf/jsmf-magellan.git",
     "jsmf-neo4j": "git+ssh://git@git.list.lu:jsmf/jsmf-neo4j.git",
     "jsmf-json": "git+ssh://git@git.list.lu:jsmf/jsmf-json.git",
