@@ -13,13 +13,13 @@ var FSM_MM = new Model('State');
 var State = Class.newInstance('State', [], {name: String});
 State.setAttribute('name', String);
 
-var Transition = Class.newInstance('Transition', [], {name: String}, {target: {type: State, cardinality: 1}});
+var Transition = Class.newInstance('Transition', [], {name: String}, {target: {target: State, cardinality: 1}});
 State.setReference('transitions', Transition, -1, 'source');
 
 var FSM = Class.newInstance('FSM', [], {}, {
-    initial: {type: State, cardinality: 1},
-    final: {type: State, cardinality: 1},
-    states: {type: State, cardinality: -1}
+    initial: {target: State, cardinality: 1},
+    final: {target: State, cardinality: 1},
+    states: {target: State, cardinality: -1}
 });
 
 FSM_MM.setModellingElements([FSM, State, Transition]);

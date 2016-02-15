@@ -1,6 +1,6 @@
 {
   "name": "jsmf",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Model Management in javascript",
   "main": "index.js",
   "directories": {
@@ -20,16 +20,16 @@
   "author": "Jean-Sebastien Sottet <jean-sebastien.sottet@list.lu> (http://www.list.lu/)",
   "license": "MIT",
   "dependencies": {
-    "jsmf-core": "git+ssh://git@git.list.lu:jsmf/jsmf-core.git",
+    "jsmf-core": "git+ssh://git@git.list.lu:jsmf/jsmf-core.git#refactored",
     "jsmf-check": "git+ssh://git@git.list.lu:jsmf/jsmf-check.git",
-    "jsmf-jstl": "git+ssh://git@git.list.lu:jsmf/jsmf-jstl.git#v0.5.0",
-    "jsmf-magellan": "git+ssh://git@git.list.lu:jsmf/jsmf-magellan.git",
+    "jsmf-jstl": "git+ssh://git@git.list.lu:jsmf/jsmf-jstl.git#refactored",
+    "jsmf-magellan": "git+ssh://git@git.list.lu:jsmf/jsmf-magellan.git#refactored",
     "jsmf-neo4j": "git+ssh://git@git.list.lu:jsmf/jsmf-neo4j.git",
-    "jsmf-json": "git+ssh://git@git.list.lu:jsmf/jsmf-json.git",
+    "jsmf-json": "git+ssh://git@git.list.lu:jsmf/jsmf-json.git#refactored",
     "jsmf-util": "git+ssh://git@git.list.lu:jsmf/jsmf-util.git"
   },
   "devDependencies": {
     "eyes": "~0.1.8",
-    "lodash": "~3.10.1"
+    "lodash": "~4.1.0"
   }
 }
