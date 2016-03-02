@@ -3,7 +3,7 @@
 /* jsmf.core reexports */
 
 (function() {
-    var libnames = ['jsmf-core', 'jsmf-jstl', 'jsmf-magellan', 'jsmf-neo4j', 'jsmf-json', 'jsmf-check', 'jsmf-util'];
+    var libnames = ['jsmf-core', 'jsmf-jstl', 'jsmf-magellan', 'jsmf-neo4j', 'jsmf-json', 'jsmf-check', 'jsmf-util','jsmf-yuml'];
     for (var i in libnames) {
         var lib = require(libnames[i]);
         for (var k in lib) {
