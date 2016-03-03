@@ -10,6 +10,7 @@ var libs =
   , require('jsmf-json')
   , require('jsmf-check')
   , require('jsmf-util')
+  , require('jsmf-yuml')
   ];
 
 (function() {
