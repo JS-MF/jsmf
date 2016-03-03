@@ -26,7 +26,7 @@
     "jsmf-magellan": "git+ssh://git@git.list.lu:jsmf/jsmf-magellan.git#refactored",
     "jsmf-neo4j": "git+ssh://git@git.list.lu:jsmf/jsmf-neo4j.git",
     "jsmf-json": "git+ssh://git@git.list.lu:jsmf/jsmf-json.git#refactored",
-    "jsmf-util": "git+ssh://git@git.list.lu:jsmf/jsmf-util.git",
+    "jsmf-util": "git+ssh://git@git.list.lu:jsmf/jsmf-util.git"
   },
   "devDependencies": {
     "eyes": "~0.1.8",
