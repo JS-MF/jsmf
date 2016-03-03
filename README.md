@@ -14,6 +14,7 @@ The library is composed of the following components:
 - *jsmf-neo4J*: A NEO4J backend for JSMF models.
 - *jsmf-json*: Serialization of jsmf models as JSON.
 - *jsmf-util*: Miscellanous functions for jsmf models.
+- *jsmf-yuml* : A utility library for JSMF to provide a yUML ouput for JSMF metamodels.
 
 Aside these libraries, the examples folders contains some example about the
 global usage of the libraries.
