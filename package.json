@@ -20,13 +20,13 @@
   "author": "Jean-Sebastien Sottet <jean-sebastien.sottet@list.lu> (http://www.list.lu/)",
   "license": "MIT",
   "dependencies": {
-    "jsmf-core": "git+ssh://git@git.list.lu:jsmf/jsmf-core.git",
-    "jsmf-check": "git+ssh://git@git.list.lu:jsmf/jsmf-check.git",
-    "jsmf-jstl": "git+ssh://git@git.list.lu:jsmf/jsmf-jstl.git#v0.5.0",
-    "jsmf-magellan": "git+ssh://git@git.list.lu:jsmf/jsmf-magellan.git",
+    "jsmf-core": "git+ssh://git@git.list.lu:jsmf/jsmf-core.git#0.4.0",
+    "jsmf-check": "git+ssh://git@git.list.lu:jsmf/jsmf-check.git#0.1.0",
+    "jsmf-jstl": "git+ssh://git@git.list.lu:jsmf/jsmf-jstl.git#0.6.0",
+    "jsmf-magellan": "git+ssh://git@git.list.lu:jsmf/jsmf-magellan.git#0.2.0",
     "jsmf-neo4j": "git+ssh://git@git.list.lu:jsmf/jsmf-neo4j.git",
-    "jsmf-json": "git+ssh://git@git.list.lu:jsmf/jsmf-json.git",
-    "jsmf-util": "git+ssh://git@git.list.lu:jsmf/jsmf-util.git"
+    "jsmf-json": "git+ssh://git@git.list.lu:jsmf/jsmf-json.git#0.4.0",
+    "jsmf-util": "git+ssh://git@git.list.lu:jsmf/jsmf-util.git#0.3.0"
   },
   "devDependencies": {
     "eyes": "~0.1.8",

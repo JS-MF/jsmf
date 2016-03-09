@@ -8,19 +8,26 @@ components that can be imported separately to fit your needs.
 
 The library is composed of the following components:
 
-- *jsmf-core*: The core library, to define model and model instances.
-- *jsmf-jstl*: A library for iJSMF model transformations.
-- *jsmf-magellan*: A library for model navigation and model queries.
-- *jsmf-neo4J*: A NEO4J backend for JSMF models.
-- *jsmf-json*: Serialization of jsmf models as JSON.
-- *jsmf-util*: Miscellanous functions for jsmf models.
+- [core](https://git.list.lu/jsmf/jsmf-core): The core library, to define model and model instances.
+- [jstl](https://git.list.lu/jsmf/jsmf-jstl): A library for iJSMF model transformations.
+- [magellan](https://git.list.lu/jsmf/jsmf-magellan): A library for model navigation and model queries.
+- [neo4j](https://git.list.lu/jsmf/jsmf-neo4j): A NEO4J backend for JSMF models.
+- [json](https://git.list.lu/jsmf/jsmf-json): Serialization of jsmf models as JSON.
+- [util](https://git.list.lu/jsmf/jsmf-util): Miscellanous functions for jsmf models.
 
 Aside these libraries, the examples folders contains some example about the
 global usage of the libraries.
 
+## Other libraries
+
+Besides the battery includes `jsmf` library, one can also use the
+[yUML](https://git.list.lu/jsmf/jsmf-yuml) component, to obtain a yUML diagram of a
+JSMF metamodel.
+
 ## Stability warning
 
-JSMF is under active development, the API is not stable at the moment and can change signifantly in the future releases.
+JSMF is under active development, the API is not stable at the moment and can
+change signifantly in the future releases.
 
 ## Authors and Copyright
 
