@@ -23,22 +23,23 @@ var s4 = State.newInstance({name: 's4'});
 var s5 = State.newInstance({name: 's5'});
 
 
-var t0 = Transition.newInstance({name: 't0', target: s1});
-s0.setTransitions(t0);
+var t0 = Transition.newInstance({name: 't0'});
+t0.target = s1;
+s0.transitions = t0;
 
 var t10 = Transition.newInstance({name: 't10', target: s2});
 var t11 = Transition.newInstance({name: 't11', target: s3});
-s1.setTransitions([t10, t11]);
+s1.transitions = [t10, t11];
 
 var t20 = Transition.newInstance({name: 't20', target: s4});
 var t21 = Transition.newInstance({name: 't21', target: s5});
-s2.setTransitions([t20, t21]);
+s2.transitions = [t20, t21];
 
 var t3 = Transition.newInstance({name: 't3', target: s0});
-s3.setTransitions(t3);
+s3.transitions = t3;
 
 var t5 = Transition.newInstance({name: 't5', target: s0});
-s5.setTransitions(t5);
+s5.transitions = t5;
 
 var myFSM = FSM.newInstance({
     initial: s0,
@@ -46,6 +47,6 @@ var myFSM = FSM.newInstance({
     states: [s0,s1,s2,s3,s4,s5]
 });
 
-var sample = new Model('fsmSample', myFSM);
+var sample = new Model('fsmSample', FSM_MM, myFSM, true);
 
 module.exports.sample = sample;
