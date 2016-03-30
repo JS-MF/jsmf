@@ -1,13 +1,5 @@
 # JavaScript Modelling Framework (JSMF)
 
-## Install
-
-The easiest way to install `jsmf` is to use npm. For stability purpose, we recommend you to install the last stable (or almost) release, (tag 0.5.0):
-
-~~~~shell
-$ npm install git+ssh://git@git.list.lu:jsmf/jsmf.git#0.5.0
-~~~~
-
 ## Description
 
 JSMF is a set of tool for model management in javascript, which can either be
@@ -25,6 +17,14 @@ The library is composed of the following components:
 
 Aside these libraries, the examples folders contains some example about the
 global usage of the libraries.
+
+## Install
+
+The easiest way to install `jsmf` is to use npm. For stability purpose, we recommend you to install the last stable (or almost) release, (tag 0.5.0):
+
+~~~~shell
+$ npm install git+ssh://git@git.list.lu:jsmf/jsmf.git#0.5.0
+~~~~
 
 ## Other libraries
 
