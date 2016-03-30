@@ -1,6 +1,6 @@
 {
   "name": "jsmf",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Model Management in javascript",
   "main": "index.js",
   "directories": {
