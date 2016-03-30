@@ -25,7 +25,7 @@
     "jsmf-jstl": "git+ssh://git@git.list.lu:jsmf/jsmf-jstl.git#0.6.0",
     "jsmf-magellan": "git+ssh://git@git.list.lu:jsmf/jsmf-magellan.git#0.2.0",
     "jsmf-neo4j": "git+ssh://git@git.list.lu:jsmf/jsmf-neo4j.git",
-    "jsmf-json": "git+ssh://git@git.list.lu:jsmf/jsmf-json.git#0.4.0",
+    "jsmf-json": "git+ssh://git@git.list.lu:jsmf/jsmf-json.git#0.4.1",
     "jsmf-util": "git+ssh://git@git.list.lu:jsmf/jsmf-util.git#0.3.0"
   },
   "devDependencies": {
