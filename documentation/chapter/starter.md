@@ -28,28 +28,28 @@ The FSM metamodel code is proposed in `fsm-metamodel.js`.
 We start with a traditional `jsmf-core` import:
 
 ```javascript
-'use strict';
+'use strict'
 
-var Class;
-var Model;
+let Class
+let Model
 
-(function() {var JSMF = require('jsmf-core');
-    Model = JSMF.Model;
-    Class = JSMF.Class;
-}).call();
+(function() {const JSMF = require('jsmf-core')
+    Model = JSMF.Model
+    Class = JSMF.Class
+}).call()
 ```
 
 Then, we create our (meta-)model, empty:
 
 ```javascript
-var FSM_MM = new Model('State');
+const FSM_MM = new Model('State')
 ```
 
 We know start wit the definition of the `State` class:
 
 ```javascript
-var State = Class.newInstance('State', [], {name: String});
-State.setAttribute('name', String);
+const State = Class.newInstance('State', [])
+State.setAttribute('name', String)
 ```
 
 It creates the `State` class and its `name` attribute.
@@ -59,8 +59,8 @@ As we have not created the `Transition` class yet, we can not declare the
 `outgoing` reference at the moment. Let's do it now:
 
 ```javascript
-var Transition = Class.newInstance('Transition', [], {name: String}, {target: {type: State, cardinality: 1}});
-State.setReference('transitions', Transition, -1, 'source');
+const Transition = Class.newInstance('Transition', [], {name: String}, {target: {type: State, cardinality: 1}})
+State.setReference('transitions', Transition, -1, 'source')
 ```
 
 We start by creating the `Transition` class thanks to `newIsntance`.
@@ -86,28 +86,28 @@ The 4 parameters here are in order:
 We conclude the definition of the FSM with the FSM class using all the thing we have seen so far:
 
 ```javascript
-var FSM = Class.newInstance('FSM', [], {}, {
+const FSM = Class.newInstance('FSM', [], {}, {
     initial: {type: State, cardinality: 1},
     final: {type: State, cardinality: 1},
     states: {type: State, cardinality: -1}
-});
+})
 ```
 
 ```javascript
 A final (and tedious part) is to add the modelling elements to the model:
 ```
 
-FSM_MM.setModellingElements([FSM, State, Transition]);
+FSM_MM.setModellingElements([FSM, State, Transition])
 
 
 And the file and with a module exports for nodejs:
 
 ```javascript
 module.exports = {
-    FSM_MM: FSM_MM,
-    FSM: FSM,
-    State: State,
-    Transition: Transition
+    FSM_MM,
+    FSM,
+    State,
+    Transition
 }
 ```
 
@@ -123,32 +123,28 @@ The code is in `fsm-model.js`.
 As a preamble, we start with an import of `jsmf-core` and of the meta-model:
 
 ```javascript
-var FSM_MM, FSM, State, Transition;
+let FSM_MM, FSM, State, Transition
 
-(function() {var MM = require('./fsm-metaModel.js');
-    FSM_MM = FSM_MM;
-    FSM = FSM;
-    State = State;
-    Transition = Transition;
-}).call();
+(function() {var MM = require('./fsm-metaModel.js')
+    FSM_MM = FSM_MM
+    FSM = FSM
+    State = State
+    Transition = Transition
+}).call()
 
-var Model;
-
-(function() {var jsmf = require('jsmf-core');
-    Model = jsmf.Model;
-}).call();
+const Model = require('jsmf-core').Model
 ```
 
 Then, we start with the definition of the states. To do so, we use
 `newInstance`. This function takes an initialization object in option:
 
 ```javascript
-var s0 = State.newInstance({name: 's0'});
-var s1 = State.newInstance({name: 's1'});
-var s2 = State.newInstance({name: 's2'});
-var s3 = State.newInstance({name: 's3'});
-var s4 = State.newInstance({name: 's4'});
-var s5 = State.newInstance({name: 's5'});
+const s0 = State.newInstance({name: 's0'})
+const s1 = State.newInstance({name: 's1'})
+const s2 = State.newInstance({name: 's2'})
+const s3 = State.newInstance({name: 's3'})
+const s4 = State.newInstance({name: 's4'})
+const s5 = State.newInstance({name: 's5'})
 ```
 
 Then, we add the transitions. We are creating them with `newInstance`
@@ -157,33 +153,33 @@ add them to states with a generated setter. Actually, new Instance create
 setters that can be use to populate references and attributes for each element.
 
 ```javascript
-var t0 = Transition.newInstance({name: 't0'});
-t0.target = s1;
-s0.transitions = t0;
+const t0 = Transition.newInstance({name: 't0'})
+t0.target = s1
+s0.transitions = t0
 
-var t10 = Transition.newInstance({name: 't10', target: s2});
-var t11 = Transition.newInstance({name: 't11', target: s3});
-s1.transitions = [t10, t11];
+const t10 = Transition.newInstance({name: 't10', target: s2})
+const t11 = Transition.newInstance({name: 't11', target: s3})
+s1.transitions = [t10, t11]
 
-var t20 = Transition.newInstance({name: 't20', target: s4});
-var t21 = Transition.newInstance({name: 't21', target: s5});
-s2.transitions = [t20, t21];
+const t20 = Transition.newInstance({name: 't20', target: s4})
+const t21 = Transition.newInstance({name: 't21', target: s5})
+s2.transitions = [t20, t21]
 
-var t3 = Transition.newInstance({name: 't3', target: s0});
-s3.transitions = t3;
+const t3 = Transition.newInstance({name: 't3', target: s0})
+s3.transitions = t3
 
-var t5 = Transition.newInstance({name: 't5', target: s0});
-s5.transitions = t5;
+const t5 = Transition.newInstance({name: 't5', target: s0})
+s5.transitions = t5
 ```
 
 Finally, in the same way, we can build the `FSM` object:
 
 ```javascript
-var myFSM = FSM.newInstance({
+const myFSM = FSM.newInstance({
     initial: s0,
     final: s4,
     states: [s0,s1,s2,s3,s4,s5]
-});
+})
 ```
 
 We just have to gather all these elements in a model. In JSMF, the same class
@@ -193,13 +189,13 @@ of the model at its creation. And all the elements that are referenced
 transitively by this entrypoint are automatically added:
 
 ```javascript
-var sample = new Model('fsmSample', FSM_MM, myFSM, true);
+const sample = new Model('fsmSample', FSM_MM, myFSM, true)
 ```
 
 And we finish by an export of the model:
 
 ```javascript
-module.exports.sample = sample;
+module.exports.sample = sample
 ```
 
 ## Model transformation
@@ -216,42 +212,29 @@ The file start with JSMF libraries, FSM meta-model and FSM model import (from
 line 3 to line 31):
 
 ```javascript
-var _ = require('lodash');
+const _ = require('lodash')
 
-var Model;
-(function() {
-    var jsmf = require('jsmf-core');
-    Model = jsmf.Model;
-}).call();
+const Model = require('jsmf-core').Model
+const Transformation = require('jsmf-jstl').Transformation
+const nav = require('jsmf-magellan')
 
-var Mapping, Transformation;
-(function() {
-    var jstl = require('jsmf-jstl');
-    Transformation = jstl.Transformation;
-    Mapping = jstl.Mapping;
-}).call();
 
-var nav = require('jsmf-magellan');
+let FSM_MM, FSM, State, Transition;
+(function() { const MM = require('./fsm-metaModel.js')
+    FSM_MM = MM.FSM_MM
+    FSM = MM.FSM
+    State = MM.State
+    Transition = MM.Transition
+}).call()
 
-var FSM_MM, FSM, State, Transition;
-(function() { var MM = require('./fsm-metaModel.js');
-    FSM_MM = MM.FSM_MM;
-    FSM = MM.FSM;
-    State = MM.State;
-    Transition = MM.Transition;
-}).call();
-
-var input;
-(function() { var M = require('./fsm-model.js');
-    input = M.sample;
-}).call();
+const input = require('./fsm-model.js').sample
 ```
 
 We continue by the initialisation of the transformation module.
 
 
 ```javascript
-var module = new TransformationModule('invertFSM', input, output);
+const trans = new TransformationModule('invertFSM', input, output)
 ```
 
 ### FSMs Transformation
@@ -280,17 +263,17 @@ we build a new FSM instance and we define its relationships, we describes them
 in details below the code. Finally, we add the rule to the module.
 
 ```javascript
-var fsmInversion = {
-    in: function(x) {return nav.allInstancesFromModel(FSM, x);},
+const fsmInversion = {
+    in: x => nav.allInstancesFromModel(FSM, x),
     out: function(i) {
-        var fsm = FSM.newInstance();
-        this.assign(fsm, 'initial', i.final);
-        this.assign(fsm, 'final', i.initial);
-        this.assign(fsm, 'states', i.states);
-        return [fsm];
+        const fsm = FSM.newInstance()
+        this.assign(fsm, 'initial', i.final)
+        this.assign(fsm, 'final', i.initial)
+        this.assign(fsm, 'states', i.states)
+        return [fsm]
     }
-};
-module.addRule(fsmInversion);
+}
+trans.addRule(fsmInversion)
 ```
 
 In this sample, the two first `this.assign` resolution rules follow the
@@ -305,16 +288,16 @@ a state in the output FSM.
 The objective for the transitions transformation is to invert the direction of
 the original transition:
 
-```javacript
-var transitionInversion = {
-    in: function(x) {return nav.allInstancesFromModel(Transition, x);},
+```javascript
+const transitionInversion = {
+    in: x => nav.allInstancesFromModel(Transition, x),
     out: function(i) {
-        var transition = Transition.newInstance({name: i.name});
-        this.assign(transition, 'target', i.source);
-        return [transition];
+        const transition = Transition.newInstance({name: i.name})
+        this.assign(transition, 'target', i.source)
+        return [transition]
     }
 }
-module.addRule(transitionInversion);
+trans.addRule(transitionInversion)
 ```
 
 Source is an opposite reference and thus will be handled in state, not in
@@ -332,15 +315,15 @@ use a helper, dsicussed below. For the moment, just see how this helper is used
 in the example:
 
 ```javascript
-var stateInversion = {
-    in: function(x) {return nav.allInstancesFromModel(State, x);},
-    out: function(i, input) {
-        var state = State.newInstance({name: i.name});
-        this.assign(state, 'transitions', this.helpers.opposedTarget.valuesFor(i));
-        return [state];
+const stateInversion = {
+    in: x => nav.allInstancesFromModel(State, x),
+    out: function(i) {
+        const state = State.newInstance({name: i.name})
+        this.assign(state, 'transitions', this.helpers.opposedTarget.get(i))
+        return [state]
     }
-};
-module.addRule(stateInversion);
+}
+trans.addRule(stateInversion)
 ```
 
 The helper is called `opposedTarget` and provide a mapping that associate each
@@ -348,42 +331,36 @@ states to the array of transitions that lead to this state. The `valuesFor`
 function give us access to these transitions. Let see how the helper is declared:
 
 ```javascript
-var opposedTargetRelation = {
+const opposedTargetRelation = {
     name: 'opposedTarget',
-    map: function(x) {
-      var result = new Mapping();
+    map: x => {
+      const result = new Map()
       _.forEach(
           nav.allInstancesFromModel(Transition, x),
-          function (t) {
-              result.map(t.target[0], t);
-          });
-      return result;
+          t => {
+            const target = _.first(t.target)
+            let value = result.get(target) || []
+            value.push(t)
+            result.set(target, value)
+          }
+      )
+      return result
     }
 }
-module.addHelper(opposedTargetRelation);
+trans.addHelper(opposedTargetRelation)
 ```
 
-A helper is an object that is composed of a `name` used as a reference in the
-rules that use the helper and of a map function, that will be executed at
-runtime on the input model. In our case, the helper build a `Mapping` object.
-
-
-And that's is, we are ready to launch the transformation (and we use the
-inspect module to check the result):
-
 ```javascript
-var output = new Model('invertedSample')
-module.apply(input, output);
-var inspect = require('eyes').inspector({
-    maxLength: 12000
-});
-inspect(output);
+const output = new Model('invertedSample')
+trans.apply(input, output)
+const inspect = require('eyes').inspector({maxLength: 12000})
+inspect(output)
 ```
 
 But we haven't finish with the transformed FSM yet, so let's export the result:
 
 ```javascript
-module.exports.inverted = output;
+module.exports.inverted = output
 ```
 
 
@@ -400,41 +377,32 @@ directory.
 As usual, we start with libraries import:
 
 ```javascript
-var _ = require('lodash');
+const _ = require('lodash')
 
-var Model;
-(function() {
-    var jsmf = require('jsmf-core');
-    Model = jsmf.Model;
-}).call();
+const Model = require('jsmf-core').Model
 
-var nav = require('jsmf-magellan');
-var check = require('jsmf-check');
+const nav = require('jsmf-magellan')
+const check = require('jsmf-check')
 
-var FSM_MM, FSM, State, Transition;
+let FSM_MM, FSM, State, Transition
 (function() { var MM = require('./fsm-metaModel.js');
-    FSM_MM = MM.FSM_MM;
-    FSM = MM.FSM;
-    State = MM.State;
-    Transition = MM.Transition;
-}).call();
+    FSM_MM = MM.FSM_MM
+    FSM = MM.FSM
+    State = MM.State
+    Transition = MM.Transition
+}).call()
 
-var initial;
-(function() { var M = require('./fsm-model.js');
-    initial = M.sample;
-}).call();
+const initial = require('./fsm-model.js').sample
 
+const inverted = require('./invertFSM.js').inverted
 
-var inverted;
-(function() { var M = require('./invertFSM.js');
-    inverted = M.inverted;
-}).call();
+const checkTransformation = new check.Checker()
 ```
 
 Then we initialize a checker:
 
 ```javascript
-var checkTransformation = new check.Checker();
+const checkTransformation = new check.Checker()
 ```
 
 Let start with a check of the FSM object transformation. We will check
@@ -457,19 +425,13 @@ The thris argument is the function that must be fullfilled by these models:
 ```javascript
 checkTransformation.addRule(
     'FSM_inversion',
-    [ check.all(check.onInput(function (x) {
-        return nav.allInstancesFromModel(FSM, x);
-      }))
-    , check.any(check.onOutput(function (x) {
-        return nav.allInstancesFromModel(FSM, x);
-    }))
+    [ check.all(check.onInput(x => nav.allInstancesFromModel(FSM, x)))
+    , check.any(check.onOutput(x => nav.allInstancesFromModel(FSM, x)))
     ],
-    function (x, y) {
-        return x.initial[0].name === y.final[0].name
+    (x, y) => x.initial[0].name === y.final[0].name
           && x.final[0].name === y.initial[0].name
           && x.states.length === y.states.length
-    }
-);
+)
 ```
 
 We continue with the definition of several selections for the checker.
@@ -480,14 +442,10 @@ used several times in the next rules.
 
 ```javascript
 checkTransformation.selections.inputStates =
-    check.onInput(function (x) {
-        return nav.allInstancesFromModel(State, x);
-    })
+    check.onInput(x => nav.allInstancesFromModel(State, x))
 
 checkTransformation.selections.outputStates =
-    check.onOutput(function (x) {
-        return nav.allInstancesFromModel(State, x);
-    })
+    check.onOutput(x => nav.allInstancesFromModel(State, x))
 ```
 
 With these selections, we can check that the transformation preserve the number of states:
@@ -498,8 +456,8 @@ checkTransformation.addRule(
     [ check.raw(new check.Reference('inputStates'))
     , check.raw(new check.Reference('outputStates'))
     ],
-    function (x, y) { return x.length === y.length }
-);
+    (x, y) => x.length === y.length
+)
 ```
 
 We also check if the names are preserved: for each state of the input model, it
@@ -511,8 +469,8 @@ checkTransformation.addRule(
     [ check.all(new check.Reference('inputStates'))
     , check.any(new check.Reference('outputStates'))
     ],
-    function (x, y) { return x.name === y.name }
-);
+    (x, y) => x.name === y.name
+)
 ```
 
 We continue by checking that the number of transitions is preserved thourgh the transformation:
@@ -520,16 +478,11 @@ We continue by checking that the number of transitions is preserved thourgh the 
 ```javascript
 checkTransformation.addRule(
     'Transition cardinality preservation',
-    [ check.raw(check.onInput(function (x) {
-        return nav.allInstancesFromModel(Transition, x);
-      }))
-    , check.raw(check.onOutput(function (x) {
-        return nav.allInstancesFromModel(Transition, x);
-    }))
+    [ check.raw(check.onInput(x => nav.allInstancesFromModel(Transition, x)))
+    , check.raw(check.onOutput(x => nav.allInstancesFromModel(Transition, x)))
     ],
-    function (x, y) { return x.length === y.length }
-);
-
+    (x, y) => x.length === y.length
+)
 ```
 
 We finish with the most important rule: transitions are inverted. For all the
@@ -542,22 +495,16 @@ such that:
 ```javascript
 checkTransformation.addRule(
     'Transition are inverted',
-    [ check.all(check.onInput(function (x) {
-        return nav.allInstancesFromModel(Transition, x);
-      }))
-    , check.any(check.onOutput(function (x) {
-        return nav.allInstancesFromModel(Transition, x);
-      }))
+    [ check.all(check.onInput(x => nav.allInstancesFromModel(Transition, x)))
+    , check.any(check.onOutput(x => nav.allInstancesFromModel(Transition, x)))
     ],
-    function (inputT, outputT) {
-        return inputT.target[0].name == outputT.source[0].name
-            && outputT.target[0].name == inputT.source[0].name;
-    }
-);
+    (inputT, outputT) => inputT.target[0].name == outputT.source[0].name
+            && outputT.target[0].name == inputT.source[0].name
+)
 ```
 
 And then we run all these rules (and log the result):
 
 ```javascript
-console.log(checkTransformation.runOnTransformation(initial, inverted));
+console.log(checkTransformation.runOnTransformation(initial, inverted))
 ```

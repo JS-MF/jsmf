@@ -2,7 +2,7 @@
 
 /* jsmf.core reexports */
 
-var libs =
+const libs =
   [ require('jsmf-core')
   , require('jsmf-jstl')
   , require('jsmf-magellan')
@@ -12,11 +12,9 @@ var libs =
   , require('jsmf-util')
   ];
 
-(function() {
-    for (var i in libs) {
-        var lib = libs[i];
-        for (var k in lib) {
-          module.exports[k] = lib[k];
-        }
+for (let i in libs) {
+    const lib = libs[i]
+    for (let k in lib) {
+      module.exports[k] = lib[k]
     }
-}).call();
+}
