@@ -34,6 +34,8 @@ If you need to use JSMF in the browser, you can just load JSMF as a library (~10
 <script type="text/javascript" src="https://git.list.lu/jsmf/jsmf-browser/blob/master/dist/jsmf-browser.min.js"></script>
 ~~~~
 
+This script expose a `jsmf` object that contains all the functions exported by the JSMF module.
+
 ## Other libraries
 
 Besides the battery includes `jsmf` library, one can also use the
