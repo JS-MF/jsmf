@@ -441,10 +441,10 @@ to filter all the states of the input and of the ouput models, which will be
 used several times in the next rules.
 
 ```javascript
-checkTransformation.selections.inputStates =
+checkTransformation.helpers.inputStates =
     check.onInput(x => nav.allInstancesFromModel(State, x))
 
-checkTransformation.selections.outputStates =
+checkTransformation.helpers.outputStates =
     check.onOutput(x => nav.allInstancesFromModel(State, x))
 ```
 

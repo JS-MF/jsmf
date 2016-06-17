@@ -11,6 +11,7 @@ The library is composed of the following components:
 - [core](https://git.list.lu/jsmf/jsmf-core): The core library, to define model and model instances.
 - [jstl](https://git.list.lu/jsmf/jsmf-jstl): A library for iJSMF model transformations.
 - [magellan](https://git.list.lu/jsmf/jsmf-magellan): A library for model navigation and model queries.
+- [neo4j](https://git.list.lu/jsmf/jsmf-neo4j): Neo4j backend for JSMF models.
 - [json](https://git.list.lu/jsmf/jsmf-json): Serialization of jsmf models as JSON.
 
 Aside these libraries, the examples folders contains some example about the
@@ -20,10 +21,10 @@ global usage of the libraries.
 
 ## ES6 and node (version >= 4.0)
 
-The easiest way to install `jsmf` is to use npm. For stability purpose, we recommend you to install the last stable (or almost) release, (tag 0.7.0):
+The easiest way to install `jsmf` is to use npm. For stability purpose, we recommend you to install the last stable (or almost) release, (tag 0.8.0):
 
 ~~~~shell
-$ npm install git+ssh://git@git.list.lu:jsmf/jsmf.git#0.7.0
+$ npm install git+ssh://git@git.list.lu:jsmf/jsmf.git#0.8.0
 ~~~~
 
 ## Client JSMF
