@@ -28,6 +28,7 @@ const libs =
   [ require('jsmf-core')
   , require('jsmf-jstl')
   , require('jsmf-magellan')
+  , require('jsmf-neo4j')
   , require('jsmf-json')
   , require('jsmf-check')
   ];
